@@ -95,7 +95,7 @@ describe( 'Utils', () => {
       it( 'returns the sum of all the available notes', () => {
         expect( Utils.getSumCountNotes( notesContainer )).to.eq( 1100 );
       });
-      it( 'returns the sum of all the available notes', () => {
+      it( 'returns the sum of all the available notes (£50s set to 0)', () => {
         notesContainer[ '50' ].count = 0;
         expect( Utils.getSumCountNotes( notesContainer )).to.eq( 600 );
       });
