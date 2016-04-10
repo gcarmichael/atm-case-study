@@ -141,6 +141,11 @@ describe( 'Utils', () => {
         const result = { 50: { count: 2 }, 20: { count: 2 }, 10: { count: 3 } };
         expect( Utils.calculateCountNotes( withdraw, activeState )).to.eql( result );
       });
+      it( 'gives one note of each when is possible, £40', () => {
+        const withdraw = 40;
+        const result = { 50: { count: 0 }, 20: { count: 1 }, 10: { count: 2 } };
+        expect( Utils.calculateCountNotes( withdraw, activeState )).to.eql( result );
+      });
       it( 'gives one note of each when is possible, £80', () => {
         notesContainer[ '50' ].count = 0;
         const withdraw = 80;
@@ -204,7 +209,7 @@ describe( 'Utils', () => {
 
     describe( 'getValidationMessage', () => {
       it( 'is defined', () => {
-        expect( Utils.getValidationMessage ).to.eq( 'undefined' );
+        expect( Utils.getValidationMessage ).not.eq( undefined );
       });
       it( 'returns a String', () => {
         const mockedValidation = getRandomValueToMock( validationObject );

@@ -46,7 +46,7 @@ const Utils = {
     }, 0 );
   },
 
-  /** TODO Implement this method
+  /** TODO
    *
    * areAnyNotesLeft - Checks the availability of notes for the amount specified for withdrawal.
    *
@@ -59,9 +59,64 @@ const Utils = {
    *
    */
    areAnyNotesLeft( withdraw, notesContainer ) {
+
+    let fifties = Math.floor(withdraw / 50);
+    fifties = (fifties > notesContainer['50'].count) ? notesContainer['50'].count : fifties;
+    let remainder = (withdraw - (fifties * 50));
+
+    let twenties = Math.floor(remainder / 20);
+    twenties = (twenties > notesContainer['20'].count) ? notesContainer['20'].count : twenties;
+    remainder = (remainder - (twenties * 20));
+
+    let tens = Math.floor(remainder / 10);
+    tens = (tens > notesContainer['10'].count) ? notesContainer['10'].count : tens;
+    remainder = (remainder - (tens * 10));
+
+    if (remainder === 0){
+      return true;
+    } else {
+      return false;
+    }
+
+    // const sumNotes = this.getSumCountNotes(notesContainer);
+
+    // if (sumNotes > withdraw){
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+
+    // if ((withdraw / 50) > 1){
+    //   if (notesContainer['50'].count !== 0){
+    //     let notesToUse50 = Math.floor(withdraw / 50);
+    //     notesContainer['50'].count = notesContainer['50'].count - notesToUse50;
+    //     let remainder = withdraw - (notesToUse50 * 50);
+    //     if ((remainder / 20) > 1){
+    //       if (notesContainer['20'].count !== 0){
+    //         let notesToUse20 = Math.floor(remainder / 20);
+    //         notesContainer['20'].count = notesContainer['20'].count - notesToUse20;
+    //         let remainder = remainder - (notesToUse20 * 20);
+    //         if ((remainder / 10) > 1){
+    //           if (notesContainer['10'].count !== 0){
+    //             let notesToUse10 = Math.floor(withdraw / 10);
+    //             notesContainer['10'].count = notesContainer['10'].count - notesToUse10;
+    //             let remainder = withdraw - (notesToUse10 * 10);
+
+    //             if (remainder === 0){
+    //               return true;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    // return false;
+
    },
 
-  /** TODO Implement this method
+  /**
    *
    * calculateCountNotes - Calculates the total count for each type of notes required for withdrawal.
    *
@@ -76,44 +131,73 @@ const Utils = {
    * "./src/components/atm.js" is the parent component for this React app,
    * there you can understand more how this app works.
    */
-   calculateCountNotes( withdraw, notesContainer ) {
-    var notes50Count = 0;
-    var notes20Count = 0;
-    var notes10Count = 0;
-    var withdraw = withdraw;
+   calculateCountNotes( withdraw, props ) {
+    let notes50Count = 0;
+    let notes20Count = 0;
+    let notes10Count = 0;
 
     while (withdraw >= 50){
-      if(notesContainer.atmData.notesContainer['50'].count != 0){
-        var withdraw = withdraw - 50;
+      if(props.atmData.notesContainer['50'].count !== 0){
+        withdraw = withdraw - 50;
         notes50Count += 1;
       }
       if (withdraw >= 20){
-        if(notesContainer.atmData.notesContainer['20'].count != 0){
-          var withdraw = withdraw - 20;
+        if(props.atmData.notesContainer['20'].count !== 0){
+          withdraw = withdraw - 20;
           notes20Count += 1;
         }
       }
       if (withdraw >= 10){
-        if(notesContainer.atmData.notesContainer['10'].count != 0){
-          var withdraw = withdraw - 10;
+        if(props.atmData.notesContainer['10'].count !== 0){
+          withdraw = withdraw - 10;
           notes10Count += 1;
         }
       }
     }
 
     while (withdraw >= 20){
-      if(notesContainer.atmData.notesContainer['20'].count != 0){
-        var withdraw = withdraw - 20;
+      if(props.atmData.notesContainer['20'].count !== 0){
+        withdraw = withdraw - 20;
         notes20Count += 1;
+      }
+      if (withdraw >= 10){
+        if(props.atmData.notesContainer['10'].count !== 0){
+          withdraw = withdraw -10;
+          notes10Count += 1;
+        }
       }
     }
 
     while (withdraw > 0){
-      if(notesContainer.atmData.notesContainer['10'].count != 0){
-        var withdraw = withdraw - 10;
+      if(props.atmData.notesContainer['10'].count !== 0){
+        withdraw = withdraw - 10;
         notes10Count += 1;
       }
     }
+
+    return {
+      50: {
+        count: notes50Count
+      },
+      20: {
+        count: notes20Count
+      },
+      10: {
+        count: notes10Count
+      }
+    };
+
+      // var fifties = Math.floor(withdraw / 50);
+      // fifties = (fifties > props.atmData.notesContainer['50'].count) ? props.atmData.notesContainer['50'].count : fifties;
+      // var remainder = withdraw - (fifties * 50);
+
+      // var twenties = Math.floor(remainder / 20);
+      // twenties = (twenties > props.atmData.notesContainer['20'].count) ? props.atmData.notesContainer['20'].count : twenties;
+      // remainder = remainder - (twenties * 20); 
+
+      // var tens = Math.floor(remainder / 10);
+      // tens = (tens > props.atmData.notesContainer['10'].count) ? props.atmData.notesContainer['10'].count : tens;
+      // remainder = remainder - (tens * 10);
 
     // while (withdraw >= 0) {
     //   var notes50Needed = Math.floor(withdraw / 50);
@@ -133,17 +217,17 @@ const Utils = {
     //   }
     // };
 
-    return {
-      50: {
-        count: notes50Count
-      },
-      20: {
-        count: notes20Count
-      },
-      10: {
-        count: notes10Count
-      }
-    };
+    // return {
+    //   50: {
+    //     count: fifties
+    //   },
+    //   20: {
+    //     count: twenties
+    //   },
+    //   10: {
+    //     count: tens
+    //   }
+    // };
   },
 
   /**
