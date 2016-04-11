@@ -34,13 +34,13 @@ export default class Atm extends Component {
       withdrawAmount: '',
       notesContainer: {
         50: {
-          count: 10
+          count: 8
         },
         20: {
-          count: 20
+          count: 4
         },
         10: {
-          count: 20
+          count: 0
         }
       },
       withdrawnNotes: Utils.displayWithdrawnCount({})
@@ -181,10 +181,6 @@ export default class Atm extends Component {
        * to get the correct validation
        */
       {
-        condition: !Utils.areAnyNotesLeft( amount, notesContainer ),
-        message: 'notesAvailability'
-      },
-      {
         condition: !Utils.isAnyMoneyLeft( accountBalance, amount ),
         message: 'balanceError',
         userMethod: accountBalance
@@ -193,6 +189,10 @@ export default class Atm extends Component {
         condition: !Utils.isAnyMoneyLeft( totalMoney, amount ),
         message: 'amountError',
         totalMoney: totalMoney
+      },
+      {
+        condition: !Utils.areAnyNotesLeft( amount, notesContainer ),
+        message: 'notesAvailability'
       }
     ];
   }

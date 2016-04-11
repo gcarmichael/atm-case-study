@@ -71,6 +71,7 @@ const Utils = {
     let tens = Math.floor(remainder / 10);
     tens = (tens > notesContainer['10'].count) ? notesContainer['10'].count : tens;
     remainder = (remainder - (tens * 10));
+    console.log(remainder);
 
     if (remainder === 0){
       return true;
@@ -333,14 +334,21 @@ const Utils = {
    * @return {String} - Notes values
    */
    displayWithdrawnCount( withdrawnNotes ) {
-    if ( withdrawnNotes[ '10' ] === undefined ) {
+    if ( withdrawnNotes[ '10' ] === undefined || withdrawnNotes['20'] === undefined || withdrawnNotes['50'] === undefined) {
       return;
     }
-    let textResult = '';
+    // let textResult = 'Notes dispensed: ';
+    let results = [];
     _.forOwn( withdrawnNotes, ( value, key ) => {
-      textResult += `key=${key} value=${value.count}`;
+      // textResult += `key=${key} value=${value.count}`;
+        // textResult += `£${key}: x${value.count} | `;
+        results.push(value.count);
     });
-    return textResult;
+    // return textResult;
+    return `Notes dispensed:
+    £10x ${results[0]},
+    £20x ${results[1]},
+    £50x ${results[2]}`;
   }
 };
 
