@@ -132,24 +132,39 @@ const Utils = {
    * there you can understand more how this app works.
    */
    calculateCountNotes( withdraw, props ) {
-    let notes50Count = 0;
-    let notes20Count = 0;
-    let notes10Count = 0;
 
-    while (withdraw > 0){
-      if (withdraw >= 50 && props.atmData.notesContainer['50'].count !== 0){
-        withdraw = withdraw - 50;
-        notes50Count += 1;
+    let notesUsed = this.compareNotesResults(withdraw, props.atmData.notesContainer)
+
+    return {
+      50: {
+        count: notesUsed['50'].count
+      },
+      20: {
+        count: notesUsed['20'].count
+      },
+      10: {
+        count: notesUsed['10'].count
       }
-      if (withdraw >= 20 && props.atmData.notesContainer['20'].count !== 0){
-        withdraw = withdraw - 20;
-        notes20Count += 1;
-      }
-      if (withdraw >= 10 && props.atmData.notesContainer['10'].count !== 0){
-        withdraw = withdraw - 10;
-        notes10Count += 1;
-      }
-    }
+    };
+
+    // let notes50Count = 0;
+    // let notes20Count = 0;
+    // let notes10Count = 0;
+
+    // while (withdraw > 0){
+    //   if (withdraw >= 50 && props.atmData.notesContainer['50'].count !== 0){
+    //     withdraw = withdraw - 50;
+    //     notes50Count += 1;
+    //   }
+    //   if (withdraw >= 20 && props.atmData.notesContainer['20'].count !== 0){
+    //     withdraw = withdraw - 20;
+    //     notes20Count += 1;
+    //   }
+    //   if (withdraw >= 10 && props.atmData.notesContainer['10'].count !== 0){
+    //     withdraw = withdraw - 10;
+    //     notes10Count += 1;
+    //   }
+    // }
 
     // while (withdraw >= 50){
     //   if(props.atmData.notesContainer['50'].count !== 0){
@@ -190,17 +205,17 @@ const Utils = {
     //   }
     // }
 
-    return {
-      50: {
-        count: notes50Count
-      },
-      20: {
-        count: notes20Count
-      },
-      10: {
-        count: notes10Count
-      }
-    };
+    // return {
+    //   50: {
+    //     count: notes50Count
+    //   },
+    //   20: {
+    //     count: notes20Count
+    //   },
+    //   10: {
+    //     count: notes10Count
+    //   }
+    // };
 
       // var fifties = Math.floor(withdraw / 50);
       // fifties = (fifties > props.atmData.notesContainer['50'].count) ? props.atmData.notesContainer['50'].count : fifties;
@@ -243,6 +258,94 @@ const Utils = {
     //     count: tens
     //   }
     // };
+  },
+
+  compareNotesResults(amount, notesContainer){
+    let preferredResult = this.preferredMethod(amount, notesContainer);
+    return !preferredResult.change.count ? preferredResult : this.fallbackMethod(amount, notesContainer);
+  },
+
+  preferredMethod(amount, notesContainer){
+    let available50 = notesContainer['50'].count;
+    let available20 = notesContainer['20'].count;
+    let available10 = notesContainer['10'].count;
+
+    let remainder = amount;
+    let remainderStart = amount;
+    let remainderEnd = 0;
+
+    let notes50Count = 0;
+    let notes20Count = 0;
+    let notes10Count = 0;
+
+    while (remainderStart !== remainderEnd){
+      remainderStart = remainder;
+
+      if (remainder >= 50 && available50){
+        available50 -= 1;
+        remainder = remainder - 50;
+        notes50Count += 1;
+      }
+
+      if (remainder >= 20 && available20){
+        available20 -= 1;
+        remainder = remainder - 20;
+        notes20Count += 1;
+      }
+
+      if (remainder >= 10 && available10){
+        available10 -= 1;
+        remainder = remainder - 10;
+        notes10Count += 1;
+      }
+
+      remainderEnd = remainder;
+
+    }
+
+    return {
+      50: {
+        count: notes50Count
+      },
+      20: {
+        count: notes20Count
+      },
+      10: {
+        count: notes10Count
+      },
+      change: {
+        count: remainder
+      }
+    };
+  },
+
+  fallbackMethod(amount, notesContainer){
+    let fifties = Math.floor(amount / 50);
+    fifties = (fifties > notesContainer['50'].count) ? notesContainer['50'].count : fifties;
+    let remainder = (amount - (fifties * 50));
+
+    let twenties = Math.floor(remainder / 20);
+    twenties = (twenties > notesContainer['20'].count) ? notesContainer['20'].count : twenties;
+    remainder = (remainder - (twenties * 20));
+
+    let tens = Math.floor(remainder / 10);
+    tens = (tens > notesContainer['10'].count) ? notesContainer['10'].count : tens;
+    remainder = (remainder - (tens * 10));
+
+    return {
+          50: {
+            count: fifties
+          },
+          20: {
+            count: twenties
+          },
+          10: {
+            count: tens
+          },
+          change: {
+            count: remainder
+          }
+        };
   },
 
   /**
