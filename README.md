@@ -87,6 +87,7 @@ Code Quality
 * I recognise that my new functions in utils.js appear inconsistent with regards to variable names between methods. Given more time, I would amend these during refactoring.
 * Additionally, I recognise that a large section of my code could always be refactored. Given the time limitations, I chose to get the code operational and relatively tidy, with the knowledge that it would be refactored and tidied up later (e.g. fallbackMethod and areAnyNotesLeft are very similar and not very DRY).
 *As above, with more time I would implement comments for my added functions as has been done with the provided functions. Detailing the params and outputs and their types was very useful when reading the code.
+*An additional fix to make would be to adjust the rounding on the balance shown to the user on the balance page.
 
 CSS
 * Very minimal CSS styling has been added. Given the time limitations, I did not have time remaining to provide much styling. I created and used a stylesheet in order to gain an understanding of how the system was implementing this. I recognise CSS as a personal weakness, and while I always look forward to improving my skills in this area, I realise my strength and focus lies with back-end development.
