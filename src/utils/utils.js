@@ -71,7 +71,6 @@ const Utils = {
     let tens = Math.floor(remainder / 10);
     tens = (tens > notesContainer['10'].count) ? notesContainer['10'].count : tens;
     remainder = (remainder - (tens * 10));
-    console.log(remainder);
 
     if (remainder === 0){
       return true;
@@ -136,45 +135,61 @@ const Utils = {
     let notes50Count = 0;
     let notes20Count = 0;
     let notes10Count = 0;
+    let total50 = (props.atmData.notesContainer['50'].count * 50);
 
-    while (withdraw >= 50){
-      if(props.atmData.notesContainer['50'].count !== 0){
+    while (withdraw > 0){
+      if (withdraw >= 50 && props.atmData.notesContainer['50'].count !== 0){
         withdraw = withdraw - 50;
         notes50Count += 1;
       }
-      if (withdraw >= 20){
-        if(props.atmData.notesContainer['20'].count !== 0){
-          withdraw = withdraw - 20;
-          notes20Count += 1;
-        }
-      }
-      if (withdraw >= 10){
-        if(props.atmData.notesContainer['10'].count !== 0){
-          withdraw = withdraw - 10;
-          notes10Count += 1;
-        }
-      }
-    }
-
-    while (withdraw >= 20){
-      if(props.atmData.notesContainer['20'].count !== 0){
+      if (withdraw >= 20 && props.atmData.notesContainer['20'].count !== 0){
         withdraw = withdraw - 20;
         notes20Count += 1;
       }
-      if (withdraw >= 10){
-        if(props.atmData.notesContainer['10'].count !== 0){
-          withdraw = withdraw -10;
-          notes10Count += 1;
-        }
-      }
-    }
-
-    while (withdraw > 0){
-      if(props.atmData.notesContainer['10'].count !== 0){
+      if (withdraw >= 10 && props.atmData.notesContainer['10'].count !== 0){
         withdraw = withdraw - 10;
         notes10Count += 1;
       }
     }
+    
+    // while (withdraw >= 50){
+    //   if(props.atmData.notesContainer['50'].count !== 0){
+    //     withdraw = withdraw - 50;
+    //     notes50Count += 1;
+    //   }
+    //   if (withdraw >= 20){
+    //     if(props.atmData.notesContainer['20'].count !== 0){
+    //       withdraw = withdraw - 20;
+    //       notes20Count += 1;
+    //     }
+    //   }
+    //   if (withdraw >= 10){
+    //     if(props.atmData.notesContainer['10'].count !== 0){
+    //       withdraw = withdraw - 10;
+    //       notes10Count += 1;
+    //     }
+    //   }
+    // }
+
+    // while (withdraw >= 20){
+    //     if(props.atmData.notesContainer['20'].count !== 0){
+    //     withdraw = withdraw - 20;
+    //     notes20Count += 1;
+    //   }
+    //   if (withdraw >= 10){
+    //       if(props.atmData.notesContainer['10'].count !== 0){
+    //       withdraw = withdraw -10;
+    //       notes10Count += 1;
+    //     }
+    //   }
+    // }
+
+    // while (withdraw > 0){
+    //     if(props.atmData.notesContainer['10'].count !== 0){
+    //     withdraw = withdraw - 10;
+    //     notes10Count += 1;
+    //   }
+    // }
 
     return {
       50: {
