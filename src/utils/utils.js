@@ -46,17 +46,13 @@ const Utils = {
     }, 0 );
   },
 
-  /** TODO
+  /**
    *
    * areAnyNotesLeft - Checks the availability of notes for the amount specified for withdrawal.
    *
    * @param  {Number} withdraw   - Amount to check
    * @param  {Object} notesContainer - Object of objects containing the count for each note
    * @return {Boolean} -
-   *
-   * This method is used inside getInvalidScenarios from the parent component,
-   * so an error can be returned for the availability validation.
-   *
    */
    areAnyNotesLeft( withdraw, notesContainer ) {
 
@@ -77,43 +73,6 @@ const Utils = {
     } else {
       return false;
     }
-
-    // const sumNotes = this.getSumCountNotes(notesContainer);
-
-    // if (sumNotes > withdraw){
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-
-    // if ((withdraw / 50) > 1){
-    //   if (notesContainer['50'].count !== 0){
-    //     let notesToUse50 = Math.floor(withdraw / 50);
-    //     notesContainer['50'].count = notesContainer['50'].count - notesToUse50;
-    //     let remainder = withdraw - (notesToUse50 * 50);
-    //     if ((remainder / 20) > 1){
-    //       if (notesContainer['20'].count !== 0){
-    //         let notesToUse20 = Math.floor(remainder / 20);
-    //         notesContainer['20'].count = notesContainer['20'].count - notesToUse20;
-    //         let remainder = remainder - (notesToUse20 * 20);
-    //         if ((remainder / 10) > 1){
-    //           if (notesContainer['10'].count !== 0){
-    //             let notesToUse10 = Math.floor(withdraw / 10);
-    //             notesContainer['10'].count = notesContainer['10'].count - notesToUse10;
-    //             let remainder = withdraw - (notesToUse10 * 10);
-
-    //             if (remainder === 0){
-    //               return true;
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
-    // return false;
-
    },
 
   /**
@@ -123,16 +82,8 @@ const Utils = {
    * @param  {Number} withdraw   - Amount to calculate
    * @param  {Object} notesContainer - ATM notes container (Originally used props)
    * @return {Object} - Object of objects containing the count for each note
-   *
-   * The failing tests from "./test-utils/utilsSpec.js" can give you an idea about
-   * how you can develop this method. This application relies on the follow data structure:
-   * { 50: { count: 0 }, ... } idem for the rest of notes.
-   *
-   * "./src/components/atm.js" is the parent component for this React app,
-   * there you can understand more how this app works.
    */
    calculateCountNotes( withdraw, props ) {
-
     let notesUsed = this.compareNotesResults(withdraw, props.atmData.notesContainer)
 
     return {
@@ -146,118 +97,6 @@ const Utils = {
         count: notesUsed['10'].count
       }
     };
-
-    // let notes50Count = 0;
-    // let notes20Count = 0;
-    // let notes10Count = 0;
-
-    // while (withdraw > 0){
-    //   if (withdraw >= 50 && props.atmData.notesContainer['50'].count !== 0){
-    //     withdraw = withdraw - 50;
-    //     notes50Count += 1;
-    //   }
-    //   if (withdraw >= 20 && props.atmData.notesContainer['20'].count !== 0){
-    //     withdraw = withdraw - 20;
-    //     notes20Count += 1;
-    //   }
-    //   if (withdraw >= 10 && props.atmData.notesContainer['10'].count !== 0){
-    //     withdraw = withdraw - 10;
-    //     notes10Count += 1;
-    //   }
-    // }
-
-    // while (withdraw >= 50){
-    //   if(props.atmData.notesContainer['50'].count !== 0){
-    //     withdraw = withdraw - 50;
-    //     notes50Count += 1;
-    //   }
-    //   if (withdraw >= 20){
-    //     if(props.atmData.notesContainer['20'].count !== 0){
-    //       withdraw = withdraw - 20;
-    //       notes20Count += 1;
-    //     }
-    //   }
-    //   if (withdraw >= 10){
-    //     if(props.atmData.notesContainer['10'].count !== 0){
-    //       withdraw = withdraw - 10;
-    //       notes10Count += 1;
-    //     }
-    //   }
-    // }
-
-    // while (withdraw >= 20){
-    //     if(props.atmData.notesContainer['20'].count !== 0){
-    //     withdraw = withdraw - 20;
-    //     notes20Count += 1;
-    //   }
-    //   if (withdraw >= 10){
-    //       if(props.atmData.notesContainer['10'].count !== 0){
-    //       withdraw = withdraw -10;
-    //       notes10Count += 1;
-    //     }
-    //   }
-    // }
-
-    // while (withdraw > 0){
-    //     if(props.atmData.notesContainer['10'].count !== 0){
-    //     withdraw = withdraw - 10;
-    //     notes10Count += 1;
-    //   }
-    // }
-
-    // return {
-    //   50: {
-    //     count: notes50Count
-    //   },
-    //   20: {
-    //     count: notes20Count
-    //   },
-    //   10: {
-    //     count: notes10Count
-    //   }
-    // };
-
-      // var fifties = Math.floor(withdraw / 50);
-      // fifties = (fifties > props.atmData.notesContainer['50'].count) ? props.atmData.notesContainer['50'].count : fifties;
-      // var remainder = withdraw - (fifties * 50);
-
-      // var twenties = Math.floor(remainder / 20);
-      // twenties = (twenties > props.atmData.notesContainer['20'].count) ? props.atmData.notesContainer['20'].count : twenties;
-      // remainder = remainder - (twenties * 20); 
-
-      // var tens = Math.floor(remainder / 10);
-      // tens = (tens > props.atmData.notesContainer['10'].count) ? props.atmData.notesContainer['10'].count : tens;
-      // remainder = remainder - (tens * 10);
-
-    // while (withdraw >= 0) {
-    //   var notes50Needed = Math.floor(withdraw / 50);
-    //   if (notes50Needed <= notesContainer && notes50Needed > 1) {
-    //     withdraw -= 50;
-    //     var notes50Count = notes50Count + 1;
-    //     var notes20Needed = Math.floor(withdraw / 20);
-    //     if (notes20Needed <= notesContainer && notes20Needed > 1) {
-    //       withdraw -= 20;
-    //       var notes20Count = notes20Count + 1;
-    //       var notes10Needed = Math.floor(withdraw / 10);
-    //       if (notes10Needed <= notesContainer && notes10Needed > 1) {
-    //         withdraw -= 10;
-    //         var notes10Count = notes10Count + 1;
-    //       }
-    //     }
-    //   }
-    // };
-
-    // return {
-    //   50: {
-    //     count: fifties
-    //   },
-    //   20: {
-    //     count: twenties
-    //   },
-    //   10: {
-    //     count: tens
-    //   }
-    // };
   },
 
   compareNotesResults(amount, notesContainer){
@@ -390,7 +229,7 @@ const Utils = {
    getValidationMessage( validationObject ) {
     const validationMsg = {
       notesError: 'There is only notes of £10, £20 and £50',
-      notesAvailability: 'The only available notes at this time are  ',
+      notesAvailability: 'We cannot provide your withdrawal with the notes currently available. Please choose another amount.',
       rangeError: 'Only withdraws between £300 and £10',
       amountError: `Sorry, but the availability is £${validationObject.totalMoney}`,
       balanceError: `Sorry, but your balance is £${validationObject.userMethod}`,
@@ -440,11 +279,6 @@ const Utils = {
   },
 
   /**
-   * TODO Refactor this method
-   *
-   * This returns a poorly string, maybe it's because there are some tests missing?
-   * Try to return something more meaningful, I was thinking about pictures of notes or ...
-   *
    * displayWithdrawnCount - Displays the amount of notes used for withdrawal.
    *
    * @param  {Object} withdrawnNotes - Total count of notes needed
@@ -454,14 +288,10 @@ const Utils = {
     if ( withdrawnNotes[ '10' ] === undefined || withdrawnNotes['20'] === undefined || withdrawnNotes['50'] === undefined) {
       return;
     }
-    // let textResult = 'Notes dispensed: ';
     let results = [];
     _.forOwn( withdrawnNotes, ( value, key ) => {
-      // textResult += `key=${key} value=${value.count}`;
-        // textResult += `£${key}: x${value.count} | `;
         results.push(value.count);
     });
-    // return textResult;
     return `Notes dispensed:
     £10x ${results[0]},
     £20x ${results[1]},
